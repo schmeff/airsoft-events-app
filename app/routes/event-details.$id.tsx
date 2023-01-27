@@ -2,6 +2,7 @@ import {type LoaderArgs} from "@remix-run/node";
 import {db} from "~/utils/db.server";
 import {type Event} from "~/interfaces/event";
 import {useLoaderData} from "@remix-run/react";
+import {isMultiDay, getDuration, getLocalTimeString} from "~/utils/dates";
 
 export async function loader({params}: LoaderArgs){
     const id = params.id;
@@ -17,20 +18,15 @@ export async function loader({params}: LoaderArgs){
 
 export default function EventDetails(){
     const event: Event = useLoaderData<typeof loader>()
-    // TODO: Move these to a util class as functions
-    const isMultiDay = new Date(event.endTime).getDay() != new Date(event.startTime).getDay()
-    const duration = (new Date(event.endTime).getTime() - new Date(event.startTime).getTime())/1000/60/60
-
-    function getLocalTimeString(eventDate: Date){
-        return new Date(eventDate).toLocaleTimeString([], {hour: 'numeric', minute: "numeric"})
-    }
+    const multiDay = isMultiDay(event.startTime, event.endTime)
+    const duration = getDuration(event.startTime, event.endTime)
 
     return (
         <div className='dark:text-white'>
             <p className='dark:text-white text-3xl'>{event.title}</p>
 
             <p className='mt-3 dark:text-gray-300'>Date</p>
-            <p>{new Date(event.startTime).toDateString()}{isMultiDay && <span> - {new Date(event.endTime).toDateString()}</span>}</p>
+            <p>{new Date(event.startTime).toDateString()}{multiDay && <span> - {new Date(event.endTime).toDateString()}</span>}</p>
 
             <p className='mt-3 dark:text-gray-300'>Time</p>
             <p className='mb-3'>{getLocalTimeString(event.startTime)} - {getLocalTimeString(event.endTime)} ({duration} hours)</p>
