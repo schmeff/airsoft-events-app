@@ -8,7 +8,7 @@ export async function loader({params}: LoaderArgs){
     const id = params.id
     const event: unknown = db.event.findFirst({
         where: {
-            id: +id
+            id
         }
     })
 
@@ -31,7 +31,7 @@ export async function action({request, params}: ActionArgs){
             endTime
         },
         where: {
-            id: +id
+            id
         }
     })
 

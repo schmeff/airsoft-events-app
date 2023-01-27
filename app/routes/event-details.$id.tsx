@@ -9,7 +9,7 @@ export async function loader({params}: LoaderArgs){
 
     const event: unknown = await db.event.findFirst({
         where: {
-            id: +id
+            id
         }
     })
 
