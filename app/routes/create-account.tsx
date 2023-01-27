@@ -1,6 +1,6 @@
 import {Form} from "@remix-run/react";
 import {type ActionArgs, redirect} from "@remix-run/node";
-import {db} from "~/utils/db.server";
+import {createAccount} from "~/utils/session.server";
 
 export async function action({request}: ActionArgs){
     const formData = await request.formData()
@@ -10,28 +10,9 @@ export async function action({request}: ActionArgs){
     const password = values['password'] as string
     const verifyPassword = values['verifyPassword'] as string
 
-    if(password !== verifyPassword){
-        throw new Error('Passwords must match')
-    }
+     await createAccount({username, password, verifyPassword})
 
-    const duplicateUsername = await db.user.findFirst({
-        where: {
-            username
-        }
-    })
-
-    if(duplicateUsername){
-        throw new Error('Username already taken')
-    }
-
-    await db.user.create({
-        data: {
-            username,
-            passwordHash: password
-        }
-    })
-
-    return redirect('/')
+    return redirect('/login')
 }
 
 export default function CreateAccount(){
