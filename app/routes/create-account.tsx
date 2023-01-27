@@ -6,10 +6,28 @@ export async function action({request}: ActionArgs){
     const formData = await request.formData()
     const {...values} = Object.fromEntries(formData)
 
+    const username = (values['username'] as string).toLowerCase()
+    const password = values['password'] as string
+    const verifyPassword = values['verifyPassword'] as string
+
+    if(password !== verifyPassword){
+        throw new Error('Passwords must match')
+    }
+
+    const duplicateUsername = await db.user.findFirst({
+        where: {
+            username
+        }
+    })
+
+    if(duplicateUsername){
+        throw new Error('Username already taken')
+    }
+
     await db.user.create({
         data: {
-            username: values['username'] as string,
-            passwordHash: values['password'] as string
+            username,
+            passwordHash: password
         }
     })
 
