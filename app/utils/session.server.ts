@@ -15,7 +15,7 @@ type CreateAccountForm = {
 }
 
 export async function login({username, password}: LoginForm){
-    const user = await findUser(username)
+    const user = await findUserByUsername(username)
     if(!user) return null;
 
     const isCorrectPassword = await bcrypt.compare(password, user.passwordHash)
@@ -26,7 +26,7 @@ export async function login({username, password}: LoginForm){
 }
 
 export async function createAccount({username, password, verifyPassword}: CreateAccountForm){
-    const user = await findUser(username)
+    const user = await findUserByUsername(username)
     if(user){
         return {error: 'A user with that username already exists'}
     }
@@ -101,7 +101,32 @@ export async function requireUserId(request: Request, redirectTo: string = new U
     return userId
 }
 
-async function findUser(username: string){
+export async function logout(request: Request){
+    const session = await getUserSession(request)
+    return redirect('/login', {
+        headers: {
+            "Set-Cookie": await storage.destroySession(session)
+        }
+    })
+}
+
+export async function getUser(request: Request){
+    const userId = await getUserId(request)
+    if(typeof userId !== 'string'){
+        return null
+    }
+
+    try {
+        const user = await db.user.findUnique({
+            where: {id: userId}
+        })
+        return user
+    } catch {
+        throw logout(request)
+    }
+}
+
+async function findUserByUsername(username: string){
     return await db.user.findUnique({
         where: {
             username
