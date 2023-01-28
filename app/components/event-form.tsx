@@ -2,14 +2,11 @@ import {Form} from "@remix-run/react";
 import {type Event} from "~/interfaces/event";
 
 export default function EventForm({event}: {event: Event | null}){
-    console.log(event?.startTime.toString().split(':')[0])
-
     const startTimeString = event?.startTime.toString().split(':').slice(0, 2).join(':')
     const endTimeString = event?.endTime.toString().split(':').slice(0,2).join(':')
-    console.log(startTimeString)
 
     return (
-        <Form method='post' action={event? `/event-details/${event.id}/edit-event` : 'create-event'} className='flex flex-col gap-5'>
+        <Form method='post' action={event? `/event-details/${event.id}/edit-event` : '/create-event'} className='flex flex-col gap-5'>
             <input type="text" name='title' required maxLength={75} placeholder='Title' defaultValue={event?.title} className='dark:bg-gray-900 border-2 dark:text-white dark:border-gray-500 border-gray-500 rounded p-1 placeholder'/>
             <input type="datetime-local" name='startTime' required placeholder='Start date and time' defaultValue={startTimeString?? ''} className='dark:bg-gray-900 border-2 dark:text-white dark:border-gray-500 border-gray-500 rounded p-1 placeholder'/>
             <input type="datetime-local" name='endTime' required placeholder='End date and time' defaultValue={endTimeString?? ''} className='dark:bg-gray-900 border-2 dark:text-white dark:border-gray-500 border-gray-500 rounded p-1 placeholder'/>

@@ -1,5 +1,5 @@
 export interface Event {
-    id: number
+    id: string
     title: string
     description: string
     entryFee: number
@@ -7,4 +7,5 @@ export interface Event {
     endTime: Date
     location: string
     locationLink: string
+    userId: string
 }

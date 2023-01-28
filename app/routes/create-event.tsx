@@ -1,9 +1,10 @@
-import {Form, useActionData} from "@remix-run/react";
 import {type ActionArgs, redirect} from "@remix-run/node";
 import {db} from "~/utils/db.server";
 import EventForm from "~/components/event-form";
+import {requireUserId} from "~/utils/session.server";
 
 export async function action({request}: ActionArgs){
+    const userId = await requireUserId(request)
     const formData = await request.formData()
     let {_action, ...values} = Object.fromEntries(formData)
 
@@ -15,8 +16,9 @@ export async function action({request}: ActionArgs){
             ...values,
             entryFee,
             startTime,
-            endTime
-        }
+            endTime,
+            userId
+        } as any
     })
 
     return redirect('/')
@@ -26,7 +28,7 @@ export default function CreateEvent(){
     return (
         <div className='flex flex-col'>
             <div className='dark:text-white text-2xl mx-auto my-5'>Create your event</div>
-            <EventForm />
+            <EventForm event={null}/>
         </div>
     )
 }

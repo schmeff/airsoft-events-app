@@ -1,28 +1,35 @@
-import {type LoaderArgs} from "@remix-run/node";
+import {type LoaderArgs, redirect} from "@remix-run/node";
 import {db} from "~/utils/db.server";
 import {type Event} from "~/interfaces/event";
-import {useLoaderData} from "@remix-run/react";
+import {NavLink, useLoaderData} from "@remix-run/react";
 import {isMultiDay, getDuration, getLocalTimeString} from "~/utils/dates";
+import {getUserId} from "~/utils/session.server";
 
-export async function loader({params}: LoaderArgs){
+export async function loader({params, request}: LoaderArgs){
     const id = params.id;
+    const userId = await getUserId(request)
 
-    const event: unknown = await db.event.findFirst({
+    const event = await db.event.findFirst({
         where: {
             id
         }
     })
 
-    return event;
+    if(!event){
+        redirect('')
+    }
+
+    return {event, isOwner: event?.userId === userId }
 }
 
 export default function EventDetails(){
-    const event: Event = useLoaderData<typeof loader>()
+    const {event, isOwner} = useLoaderData<typeof loader>() as any
     const multiDay = isMultiDay(event.startTime, event.endTime)
     const duration = getDuration(event.startTime, event.endTime)
 
     return (
         <div className='dark:text-white'>
+            {isOwner && <NavLink to='edit-event' className='dark:text-white'>Edit</NavLink>}
             <p className='dark:text-white text-3xl'>{event.title}</p>
 
             <p className='mt-3 dark:text-gray-300'>Date</p>

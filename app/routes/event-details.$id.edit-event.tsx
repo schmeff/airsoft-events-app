@@ -3,14 +3,20 @@ import {db} from "~/utils/db.server";
 import {useLoaderData} from "@remix-run/react";
 import EventForm from "~/components/event-form";
 import {type Event} from "~/interfaces/event";
+import {getUserId, requireUserId} from "~/utils/session.server";
 
-export async function loader({params}: LoaderArgs){
+export async function loader({params, request}: LoaderArgs){
+    const userId = await requireUserId(request, '/login')
     const id = params.id
-    const event: unknown = db.event.findFirst({
+    const event = await db.event.findFirst({
         where: {
             id
         }
-    })
+    }) as Event | null
+
+    if(!event || event.userId != userId){
+        redirect('/')
+    }
 
     return event;
 }
@@ -39,7 +45,7 @@ export async function action({request, params}: ActionArgs){
 }
 
 export default function EditEvent(){
-    const event: Event = useLoaderData<typeof loader>()
+    const event = useLoaderData<typeof loader>() as Event | null
 
     return (
         <EventForm event={event} />
