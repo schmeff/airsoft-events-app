@@ -7,20 +7,23 @@ export default function Navbar({handleDarkModeToggle, darkMode, hasUserId}: any)
             {hasUserId && <li className='my-auto'>
                 <NavLink to='/create-event' className='dark:text-white'>Create Event</NavLink>
             </li>}
-            {!hasUserId ?
-                <li className='my-auto ml-auto'>
-                    <NavLink to='/login' className='dark:text-white'>Login</NavLink>
-                </li>
-                : <li className='my-auto ml-auto'>
-                    <button type='button' className='dark:text-white'>Logout</button>
-                </li>
-            }
+            <div className='ml-auto flex'>
+                {!hasUserId ?
+                    <li className='my-auto'>
+                        <NavLink to='/login' className='dark:text-white'>Login</NavLink>
+                    </li>
+                    : <li className='my-auto'>
+                        <button type='button' className='dark:text-white'>Logout</button>
+                    </li>
+                }
 
-            <li className='ml-auto'>
-                <button className='dark:text-white text-3xl' onClick={() => {
-                    handleDarkModeToggle()
-                }}>{darkMode ? <CgMoon/> : <CgSun/>}</button>
-            </li>
+                <li className='ml-2'>
+                    <button className='dark:text-white text-3xl' onClick={() => {
+                        handleDarkModeToggle()
+                    }}>{darkMode ? <CgMoon/> : <CgSun/>}</button>
+                </li>
+            </div>
+
         </ul>
     </nav>
 }
