@@ -38,7 +38,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className='dark:bg-gray-900 lg:w-1/2 md:w-2/3 mx-auto px-4 md:px-0'>
+      <body className='dark:bg-gray-900 lg:w-1/2 md:w-2/3 mx-auto px-4 md:px-0 dark:text-white'>
         <Navbar handleDarkModeToggle={toggleDarkMode} darkMode={darkMode} hasUserId={hasUserId} />
         <Outlet />
         <ScrollRestoration />

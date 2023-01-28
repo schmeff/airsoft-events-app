@@ -27,7 +27,7 @@ export async function action({request}: ActionArgs){
 export default function CreateEvent(){
     return (
         <div className='flex flex-col'>
-            <div className='dark:text-white text-2xl mx-auto my-5'>Create your event</div>
+            <div className='text-2xl mx-auto my-5'>Create your event</div>
             <EventForm event={null}/>
         </div>
     )

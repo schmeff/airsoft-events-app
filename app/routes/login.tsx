@@ -20,14 +20,14 @@ export default function Login() {
         <div className='grid place-content-center gap-3'>
             <Form method='post' className='flex flex-col gap-3'>
                 <input type="text" name='username' maxLength={30} required placeholder='Username'
-                       className='dark:bg-gray-900 border-2 dark:text-white dark:border-gray-500 border-gray-500 rounded p-1 placeholder'/>
+                       className='dark:bg-gray-900 border-2 dark:border-gray-500 border-gray-500 rounded p-1 placeholder'/>
                 <input type="password" name='password' maxLength={30} required placeholder='Password'
-                       className='dark:bg-gray-900 border-2 dark:text-white dark:border-gray-500 border-gray-500 rounded p-1 placeholder'/>
+                       className='dark:bg-gray-900 border-2 dark:border-gray-500 border-gray-500 rounded p-1 placeholder'/>
                 <button type="submit" name='login'
                         className='py-1 px-2 dark:bg-blue-800 bg-blue-500 hover:bg-blue-700 text-white rounded-md dark:hover:bg-blue-600'>Login
                 </button>
             </Form>
-            <NavLink to='/create-account' className='dark:text-white mx-auto'>Create Account</NavLink>
+            <NavLink to='/create-account' className='mx-auto'>Create Account</NavLink>
         </div>
     )
 }
