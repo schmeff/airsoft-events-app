@@ -1,11 +1,10 @@
-import { db } from "~/utils/db.server";
 import { useLoaderData } from "@remix-run/react";
-import { type Event } from "~/interfaces/event";
+import { type Event } from "~/types/event";
 import EventItem from "~/components/event-item";
+import {getAllEvents} from "~/server/event.server";
 
 export async function loader() {
-  const events: unknown = await db.event.findMany()
-  return events
+  return await getAllEvents()
 }
 
 export default function Index() {

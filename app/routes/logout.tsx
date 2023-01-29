@@ -1,5 +1,5 @@
 import {type ActionArgs, redirect} from "@remix-run/node";
-import {logout} from "~/utils/session.server";
+import {logout} from "~/server/session.server";
 
 export async function action({request}: ActionArgs){
     return logout(request)

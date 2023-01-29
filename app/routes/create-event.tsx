@@ -1,7 +1,7 @@
 import {type ActionArgs, redirect} from "@remix-run/node";
-import {db} from "~/utils/db.server";
+import {db} from "~/server/db.server";
 import EventForm from "~/components/event-form";
-import {requireUserId} from "~/utils/session.server";
+import {requireUserId} from "~/server/session.server";
 
 export async function action({request}: ActionArgs){
     const userId = await requireUserId(request)

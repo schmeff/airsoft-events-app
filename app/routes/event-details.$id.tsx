@@ -1,25 +1,39 @@
-import {type LoaderArgs, redirect} from "@remix-run/node";
-import {db} from "~/utils/db.server";
+import {type ActionArgs, type LoaderArgs, redirect} from "@remix-run/node";
+import {db} from "~/server/db.server";
 import {Form, NavLink, useLoaderData} from "@remix-run/react";
 import {isMultiDay, getDuration, getLocalTimeString} from "~/utils/dates";
-import {getUserId} from "~/utils/session.server";
+import {getUserId} from "~/server/session.server";
 import {AiFillCheckCircle, AiFillStar} from 'react-icons/ai'
+import {getEvent} from "~/server/event.server";
 
 export async function loader({params, request}: LoaderArgs) {
-    const id = params.id;
+    const id = params.id as string;
     const userId = await getUserId(request)
 
-    const event = await db.event.findFirst({
-        where: {
-            id
-        }
-    })
+    const event = await getEvent(id)
 
     if (!event) {
         redirect('')
     }
 
     return {event, isOwner: event?.userId === userId}
+}
+
+export async function action({request}: ActionArgs){
+   const formData = await request.formData()
+    const {_action} = Object.fromEntries(formData)
+
+    switch(_action){
+        case 'going':
+            //going
+            break
+        case 'interested':
+            break
+        default:
+            throw new Error(`Invalid action type: ${_action}`)
+    }
+
+    return null
 }
 
 export default function EventDetails() {
@@ -55,13 +69,13 @@ export default function EventDetails() {
 
             <div className='flex my-3 p-2 gap-3'>
                 <Form method='post'>
-                    <button type='submit' className='py-2 px-3 rounded-md dark:bg-gray-700 hover:dark:bg-gray-500'>
-                        Going <AiFillCheckCircle className='inline text-xl'/>
+                    <button type='submit' name='_action' value='going' className='py-2 px-3 rounded-md dark:bg-gray-700 hover:dark:bg-gray-500'>
+                        Going <AiFillCheckCircle className='inline text-xl mb-1'/>
                     </button>
                 </Form>
                 <Form method='post'>
-                    <button type='submit' className='py-2 px-3 rounded-md dark:bg-gray-700 hover:dark:bg-gray-500'>
-                        Interested <AiFillStar className='inline text-xl'/>
+                    <button type='submit' name='_action' value='interested' className='py-2 px-3 rounded-md dark:bg-gray-700 hover:dark:bg-gray-500'>
+                        Interested <AiFillStar className='inline text-xl mb-1'/>
                     </button>
                 </Form>
             </div>

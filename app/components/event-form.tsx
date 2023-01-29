@@ -1,5 +1,5 @@
 import {Form} from "@remix-run/react";
-import {type Event} from "~/interfaces/event";
+import {type Event} from "~/types/event";
 
 export default function EventForm({event}: {event: Event | null}){
     const startTimeString = event?.startTime.toString().split(':').slice(0, 2).join(':')

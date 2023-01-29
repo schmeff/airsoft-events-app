@@ -1,18 +1,15 @@
 import {type ActionArgs, type LoaderArgs, redirect} from "@remix-run/node";
-import {db} from "~/utils/db.server";
+import {db} from "~/server/db.server";
 import {useLoaderData} from "@remix-run/react";
 import EventForm from "~/components/event-form";
-import {type Event} from "~/interfaces/event";
-import {getUserId, requireUserId} from "~/utils/session.server";
+import {type Event} from "~/types/event";
+import {getUserId, requireUserId} from "~/server/session.server";
+import {getEvent} from "~/server/event.server";
 
 export async function loader({params, request}: LoaderArgs){
     const userId = await requireUserId(request, '/login')
-    const id = params.id
-    const event = await db.event.findFirst({
-        where: {
-            id
-        }
-    }) as Event | null
+    const id = params.id as string
+    const event = await getEvent(id)
 
     if(!event || event.userId != userId){
         redirect('/')

@@ -12,7 +12,7 @@ import { CgMoon, CgSun } from "react-icons/cg";
 import styles from './styles/app.css'
 import { useState } from "react";
 import Navbar from "~/components/nav";
-import {getUserId} from "~/utils/session.server";
+import {getUserId} from "~/server/session.server";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",

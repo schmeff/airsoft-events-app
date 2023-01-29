@@ -1,4 +1,4 @@
-import {type Event} from "~/interfaces/event";
+import {type Event} from "~/types/event";
 import {NavLink} from "@remix-run/react";
 import {getDuration, isMultiDay, getLocalTimeString} from "~/utils/dates";
 

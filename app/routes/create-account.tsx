@@ -1,6 +1,6 @@
 import {Form, NavLink} from "@remix-run/react";
 import {type ActionArgs, redirect} from "@remix-run/node";
-import {createAccount} from "~/utils/session.server";
+import {createAccount} from "~/server/session.server";
 
 export async function action({request}: ActionArgs){
     const formData = await request.formData()
