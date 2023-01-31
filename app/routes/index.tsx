@@ -1,5 +1,5 @@
 import { useLoaderData } from "@remix-run/react";
-import { type Event } from "~/types/event";
+import { type Event } from "~/types";
 import EventItem from "~/components/event-item";
 import {getAllEvents} from "~/server/event.server";
 

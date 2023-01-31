@@ -11,36 +11,38 @@ datasource db {
 }
 
 model User {
-  id           String       @id @default(uuid())
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
-  username     String       @unique
+  id           String      @id @default(uuid())
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  username     String      @unique
   passwordHash String
   events       Event[]
-  userEvent   UserEvent[]
+  userEvent    UserEvent[]
+  comment      Comment[]
 }
 
 model Event {
-  id           String       @id @default(uuid())
-  title        String       @db.VarChar(75)
-  description  String       @db.VarChar()
+  id           String      @id @default(uuid())
+  title        String      @db.VarChar(75)
+  description  String      @db.VarChar()
   startTime    DateTime
   endTime      DateTime
-  entryFee     Decimal      @db.Money
-  location     String       @db.VarChar()
-  locationLink String       @db.VarChar()
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
-  User         User?        @relation(fields: [userId], references: [id])
+  entryFee     Decimal     @db.Money
+  location     String      @db.VarChar()
+  locationLink String      @db.VarChar()
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  user         User?       @relation(fields: [userId], references: [id])
   userId       String
-  userEvent   UserEvent[]
+  userEvent    UserEvent[]
+  comment      Comment[]
 }
 
 model UserEvent {
   id      String          @id @default(uuid())
-  User    User?           @relation(fields: [userId], references: [id])
+  user    User?           @relation(fields: [userId], references: [id])
   userId  String?
-  Event   Event?          @relation(fields: [eventId], references: [id])
+  event   Event?          @relation(fields: [eventId], references: [id])
   eventId String?
   status  UserEventStatus
 }
@@ -49,4 +51,14 @@ enum UserEventStatus {
   NOT_GOING
   GOING
   INTERESTED
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  user      User?    @relation(fields: [userId], references: [id])
+  userId    String?
+  event     Event?   @relation(fields: [eventId], references: [id])
+  eventId   String?
+  content   String
+  createdAt DateTime @default(now())
 }

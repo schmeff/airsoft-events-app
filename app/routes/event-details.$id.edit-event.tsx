@@ -2,8 +2,8 @@ import {type ActionArgs, type LoaderArgs, redirect} from "@remix-run/node";
 import {db} from "~/server/db.server";
 import {useLoaderData} from "@remix-run/react";
 import EventForm from "~/components/event-form";
-import {type Event} from "~/types/event";
-import {getUserId, requireUserId} from "~/server/session.server";
+import {type Event} from "~/types";
+import {requireUserId} from "~/server/session.server";
 import {getEvent} from "~/server/event.server";
 
 export async function loader({params, request}: LoaderArgs){

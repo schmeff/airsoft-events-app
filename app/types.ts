@@ -12,3 +12,15 @@ export type Event = {
     userEvent?: any
 }
 
+export type Comment = {
+    id: string
+    userId: string
+    eventId: string
+    content: string
+    createdAt: Date
+    user: User
+}
+
+export type User = {
+    username: string
+}

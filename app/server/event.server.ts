@@ -1,5 +1,5 @@
 import {db} from "~/server/db.server";
-import {type Event} from "~/types/event";
+import {type Event} from "~/types";
 import {type UserEventStatus} from ".prisma/client";
 
 export async function getEvent(id: string){
