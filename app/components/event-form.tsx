@@ -10,7 +10,7 @@ export default function EventForm({event}: {event: Event | null}){
             <input type="text" name='title' required maxLength={75} placeholder='Title' defaultValue={event?.title} className='dark:bg-gray-900 border-2 dark:border-gray-500 border-gray-500 rounded p-1 placeholder'/>
             <input type="datetime-local" name='startTime' required placeholder='Start date and time' defaultValue={startTimeString?? ''} className='dark:bg-gray-900 border-2 dark:border-gray-500 border-gray-500 rounded p-1 placeholder'/>
             <input type="datetime-local" name='endTime' required placeholder='End date and time' defaultValue={endTimeString?? ''} className='dark:bg-gray-900 border-2 dark:border-gray-500 border-gray-500 rounded p-1 placeholder'/>
-            <textarea required name='description' placeholder='Description...' defaultValue={event?.description} className='dark:bg-gray-900 border-2 dark:border-gray-500 border-gray-500 rounded p-1 placeholder'/>
+            <textarea required name='description' placeholder='Details...' defaultValue={event?.description} className='dark:bg-gray-900 border-2 dark:border-gray-500 border-gray-500 rounded p-1 placeholder'/>
             <input type="text" name='location' required maxLength={75} placeholder='Location' defaultValue={event?.location} className='dark:bg-gray-900 border-2 dark:border-gray-500 border-gray-500 rounded p-1 placeholder'/>
             <input type="text" name='locationLink' required maxLength={75} placeholder='Location Link' defaultValue={event?.locationLink} className='dark:bg-gray-900 border-2 dark:border-gray-500 border-gray-500 rounded p-1 placeholder'/>
             <div className='flex gap-1 place-content-center'>
