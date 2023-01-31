@@ -1,6 +1,6 @@
 import {db} from "~/server/db.server";
 import {type Event} from "~/types/event";
-import {UserEventStatus} from ".prisma/client";
+import {type UserEventStatus} from ".prisma/client";
 
 export async function getEvent(id: string){
     return await db.event.findUnique({
@@ -31,7 +31,7 @@ export async function saveUserEvent(userId: string, eventId: string, eventStatus
             data: {
                 userId,
                 eventId,
-                status: UserEventStatus.GOING
+                status: eventStatus
             }
         }) as any
     }

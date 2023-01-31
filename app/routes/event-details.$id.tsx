@@ -39,6 +39,8 @@ export default function EventDetails() {
     const multiDay = isMultiDay(event.startTime, event.endTime)
     const duration = getDuration(event.startTime, event.endTime)
     const eventStatus = event.userEvent.find((a: any) => a.userId === userId)?.status
+    const goingCount = event.userEvent.filter((a: any) => a.status === UserEventStatus.GOING).length
+    const interestedCount = event.userEvent.filter((a: any) => a.status === UserEventStatus.INTERESTED).length
 
     return (
         <div>
@@ -67,8 +69,8 @@ export default function EventDetails() {
             <p className='mb-3'>{event.description}</p>
 
             <div className='flex gap-4'>
-                {/*<p>{event.attending.length} going</p>*/}
-                {/*<p>{event.interested.length} interested</p>*/}
+                <p>{goingCount} are going</p>
+                <p>{interestedCount} are interested</p>
             </div>
 
             <div className='flex my-3 p-2 gap-3'>
