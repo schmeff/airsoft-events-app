@@ -8,4 +8,7 @@ export type Event = {
     location: string
     locationLink: string
     userId: string
+    attending?: any
+    userEvent?: any
 }
+
