@@ -1,28 +1,25 @@
 import { type ActionArgs, type LoaderArgs, redirect } from "@remix-run/node";
-import { Form, NavLink, useLoaderData, useTransition } from "@remix-run/react";
+import { Form, NavLink, useFetcher, useLoaderData, useTransition } from "@remix-run/react";
 import { isMultiDay, getDuration, getLocalTimeString } from "~/utils/dates";
 import { getUserId, requireUserId } from "~/server/session.server";
 import { AiFillCheckCircle, AiFillCloseCircle, AiFillStar } from 'react-icons/ai'
 import { getEvent, saveUserEvent } from "~/server/event.server";
 import { UserEventStatus } from "@prisma/client";
-import { getComments, saveComment } from "~/server/comment.server";
 import { type Comment } from "~/types";
 import { useEffect, useRef } from "react";
+import { saveComment } from "~/server/comment.server";
 
 export async function loader({ params, request }: LoaderArgs) {
   const id = params.id as string;
   const userId = await getUserId(request)
 
   const event = await getEvent(id)
-  const comments = await getComments(id)
 
   if (!event) {
     redirect('/')
   }
 
-  console.log(comments[0])
-
-  return { event, isOwner: event?.userId === userId, userId, comments }
+  return { event, isOwner: event?.userId === userId, userId }
 }
 
 export async function action({ request, params }: ActionArgs) {
@@ -52,7 +49,7 @@ export async function action({ request, params }: ActionArgs) {
 }
 
 export default function EventDetails() {
-  const { event, isOwner, userId, comments } = useLoaderData<typeof loader>() as any
+  const { event, isOwner, userId } = useLoaderData<typeof loader>() as any
   const multiDay = isMultiDay(event.startTime, event.endTime)
   const duration = getDuration(event.startTime, event.endTime)
   const eventStatus = event.userEvent.find((a: any) => a.userId === userId)?.status
@@ -61,7 +58,15 @@ export default function EventDetails() {
   const transition = useTransition()
   const isPostingComment = transition.state === 'submitting' && transition.submission.formData.get('_action') === 'saveComment'
 
+  const commentsFetcher = useFetcher()
+
   let formRef: any = useRef()
+
+  useEffect(() => {
+    if (commentsFetcher.type === 'init') {
+      commentsFetcher.load(`/event-details/${event.id}/comments`)
+    }
+  }, [commentsFetcher, event])
 
   useEffect(() => {
     if (!isPostingComment) {
@@ -135,16 +140,17 @@ export default function EventDetails() {
           </button>
         </Form>
         <div className='flex flex-col gap-2'>
-          {
-            comments.map((comment: Comment) => <div key={comment.id}
+          {commentsFetcher?.data ?
+            commentsFetcher.data.map((comment: Comment) => <div key={comment.id}
               className='dark:bg-gray-800 rounded-md p-2 border-2 border-teal-800'>
               <div className='flex justify-between dark:text-gray-300 mb-2'>
                 <p>{comment.user.username}</p>
                 <p>{`${new Date(event.createdAt).toDateString()} ${getLocalTimeString(comment.createdAt)}`}</p>
               </div>
               {comment.content}
-            </div>)
-          } </div>
+            </div>) : null
+          }
+        </div>
       </div>
     </div>
   )
