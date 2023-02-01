@@ -105,14 +105,14 @@ export default function EventDetails() {
           <Form method='post'>
             <input type="hidden" name='userEventStatus' value={UserEventStatus.GOING} />
             <button type='submit' name='_action' value='setUserEventStatus'
-              className={`py-2 px-3 rounded-md dark:bg-gray-700 hover:dark:bg-gray-500 bg-gray-200 hover:bg-gray-300 ${eventStatus === UserEventStatus.GOING ? 'text-teal-400 text-teal-600' : ''}`}>
+              className={`py-2 px-3 rounded-md dark:bg-gray-700 hover:dark:bg-gray-500 bg-gray-200 hover:bg-gray-300 ${eventStatus === UserEventStatus.GOING ? 'dark:text-teal-400 text-teal-600' : ''}`}>
               Going <AiFillCheckCircle className='inline text-xl mb-1' />
             </button>
           </Form>
           <Form method='post'>
             <input type="hidden" name='userEventStatus' value={UserEventStatus.NOT_GOING} />
             <button type='submit' name='_action' value='setUserEventStatus'
-              className={`py-2 px-3 rounded-md dark:bg-gray-700 hover:dark:bg-gray-500 bg-gray-200 hover:bg-gray-300 ${eventStatus === UserEventStatus.NOT_GOING ? 'text-teal-400 text-teal-600' : ''}`}>
+              className={`py-2 px-3 rounded-md dark:bg-gray-700 hover:dark:bg-gray-500 bg-gray-200 hover:bg-gray-300 ${eventStatus === UserEventStatus.NOT_GOING ? 'dark:text-teal-400 text-teal-600' : ''}`}>
               Not Going <AiFillCloseCircle className='inline text-xl mb-1' />
             </button>
           </Form>
