@@ -3,17 +3,7 @@ import {type ActionArgs} from "@remix-run/node";
 import {createUserSession, login} from '~/server/session.server'
 import {badRequest} from "~/server/request.server";
 
-// function validateUsername(username: unknown){
-//     if(typeof username !== 'string' || username.length < 3){
-//         return 'Username must be at least 3 characters long'
-//     }
-// }
-//
-// function validatePassword(password: unknown){
-//     if(typeof password !== 'string' || password.length < 8){
-//         return 'Password must be at least 8 characters long'
-//     }
-// }
+
 
 export async function action({request}: ActionArgs) {
     const formData = await request.formData()
@@ -29,17 +19,6 @@ export async function action({request}: ActionArgs) {
     }
 
     const fields = {username, password}
-    // const fieldErrors = {
-    //     username: validateUsername(username),
-    //     password: validatePassword(password)
-    // }
-    // if(Object.values(fieldErrors).some(Boolean)){
-    //     return badRequest({
-    //         fieldErrors,
-    //         fields,
-    //         formError: null
-    //     })
-    // }
 
     const user = await login({username, password})
     if (!user) {

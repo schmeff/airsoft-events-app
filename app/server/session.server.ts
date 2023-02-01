@@ -28,23 +28,18 @@ export async function login({username, password}: LoginForm){
 export async function createAccount({username, password, verifyPassword}: CreateAccountForm){
     const user = await findUserByUsername(username)
     if(user){
-        return {error: 'A user with that username already exists'}
-    }
-
-    if(password !== verifyPassword){
-        return {error: 'Passwords must match'}
+        return null
     }
 
     const passwordHash = await bcrypt.hash(password, 10)
 
-    await db.user.create({
+    return await db.user.create({
         data: {
             username,
             passwordHash
         }
-    })
+    }) as any
 
-    return {success: true}
 }
 
 const sessionSecret = process.env.SESSION_SECRET
