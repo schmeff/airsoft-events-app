@@ -1,4 +1,4 @@
-import type {LoaderArgs, MetaFunction} from "@remix-run/node";
+import type { LoaderArgs, MetaFunction } from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -7,12 +7,11 @@ import {
   Scripts,
   ScrollRestoration, useLoaderData,
 } from "@remix-run/react";
-import { CgMoon, CgSun } from "react-icons/cg";
 
 import styles from './styles/app.css'
 import { useState } from "react";
 import Navbar from "~/components/nav";
-import {getUserId} from "~/server/session.server";
+import { getUserId } from "~/server/session.server";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
@@ -20,7 +19,7 @@ export const meta: MetaFunction = () => ({
   viewport: "width=device-width,initial-scale=1",
 });
 
-export async function loader({request}: LoaderArgs){
+export async function loader({ request }: LoaderArgs) {
   return await getUserId(request)
 }
 

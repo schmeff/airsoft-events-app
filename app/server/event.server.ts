@@ -14,7 +14,11 @@ export async function getEvent(id: string){
 }
 
 export async function getAllEvents(){
-    return await db.event.findMany() as any
+    return await db.event.findMany({
+        orderBy: {
+            startTime: 'asc'
+        }
+    }) as any
 }
 
 export async function saveUserEvent(userId: string, eventId: string, eventStatus: UserEventStatus){
