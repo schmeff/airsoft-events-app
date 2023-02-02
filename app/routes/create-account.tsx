@@ -69,12 +69,21 @@ export default function CreateAccount() {
   return (
     <div className='grid place-content-center gap-3'>
       <Form method='post' className='flex flex-col gap-3 w-96'>
-        {actionData?.fieldErrors?.username && <p className='text-red-600 text-sm mx-auto'>{actionData?.fieldErrors?.username}</p>}
-        <input type="text" name='username' maxLength={30} required placeholder='Username' className='dark:bg-gray-900 border-2 dark:border-gray-500 border-gray-500 rounded p-1 placeholder' />
-        {actionData?.fieldErrors?.password && <p className='text-red-600 text-sm mx-auto'>{actionData?.fieldErrors?.password}</p>}
-        <input type="password" name='password' maxLength={30} required placeholder='Password' className='dark:bg-gray-900 border-2 dark:border-gray-500 border-gray-500 rounded p-1 placeholder' />
-        {actionData?.fieldErrors?.verifyPassword && <p className='text-red-600 text-sm mx-auto'>{actionData?.fieldErrors?.verifyPassword}</p>}
-        <input type="password" name='verifyPassword' maxLength={30} required placeholder='Verify Password' className='dark:bg-gray-900 border-2 dark:border-gray-500 border-gray-500 rounded p-1 placeholder' />
+        <div className="flex flex-col">
+          <label htmlFor="username dark:text-gray-200">Username</label>
+          <input type="text" name='username' maxLength={30} required placeholder='Username' className='dark:bg-gray-900 border-2 dark:border-gray-500 border-gray-500 rounded p-1 placeholder' />
+          {actionData?.fieldErrors?.username && <p className='text-red-600 text-sm mx-auto'>{actionData?.fieldErrors?.username}</p>}
+        </div>
+        <div className="flex flex-col">
+          <label htmlFor="password" className="dark:text-gray-200">Password</label>
+          <input type="password" name='password' maxLength={30} required placeholder='Password' className='dark:bg-gray-900 border-2 dark:border-gray-500 border-gray-500 rounded p-1 placeholder' />
+          {actionData?.fieldErrors?.password && <p className='text-red-600 text-sm mx-auto'>{actionData?.fieldErrors?.password}</p>}
+        </div>
+        <div className="flex flex-col">
+          <label htmlFor="verifyPassword">Verify Password</label>
+          <input type="password" name='verifyPassword' maxLength={30} required placeholder='Verify Password' className='dark:bg-gray-900 border-2 dark:border-gray-500 border-gray-500 rounded p-1 placeholder' />
+          {actionData?.fieldErrors?.verifyPassword && <p className='text-red-600 text-sm mx-auto'>{actionData?.fieldErrors?.verifyPassword}</p>}
+        </div>
         {actionData?.formError && <p className='text-red-600 text-sm mx-auto'>{actionData.formError}</p>}
         <button type="submit" name='create' className='py-1 px-2 dark:bg-blue-800 bg-blue-500 hover:bg-blue-700 text-white rounded-md dark:hover:bg-blue-600'>Create</button>
       </Form>
