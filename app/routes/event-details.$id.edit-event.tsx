@@ -21,18 +21,27 @@ export async function loader({ params, request }: LoaderArgs) {
 export async function action({ request, params }: ActionArgs) {
   const id = params.id;
   const formData = await request.formData();
-  let { _action, ...values } = Object.fromEntries(formData);
+  let { startDate, startTime, endDate, endTime, title, description, location, locationLink, entryFee, useEndTime } = Object.fromEntries(formData);
 
-  const entryFee = +values['entryFee'];
-  const startTime = new Date(values['startTime'].toString());
-  const endTime = new Date(values['endTime'].toString());
+
+  const startTimeVal = new Date(startDate + ' ' + startTime)
+  let endTimeVal = null
+  if (useEndTime) {
+    endTimeVal = new Date(endDate + ' ' + endTime)
+  }
+
+  const entryFeeVal = +entryFee
+
   await db.event.update({
     data: {
-      ...values,
-      entryFee,
-      startTime,
-      endTime,
-    },
+      title,
+      description,
+      location,
+      locationLink,
+      entryFee: entryFeeVal,
+      startTime: startTimeVal,
+      endTime: endTimeVal
+    } as any,
     where: {
       id,
     },
