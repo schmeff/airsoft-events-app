@@ -26,7 +26,7 @@ model Event {
   title        String      @db.VarChar(75)
   description  String      @db.VarChar()
   startTime    DateTime
-  endTime      DateTime
+  endTime      DateTime?
   entryFee     Decimal?    @default(0) @db.Money
   location     String      @db.VarChar()
   locationLink String?     @db.VarChar()
